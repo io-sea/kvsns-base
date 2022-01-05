@@ -1,0 +1,29 @@
+init
+
+print Create a/b/c and cd to it
+mkdir a
+cd a
+mkdir b
+cd b
+mkdir c
+cd c
+
+print Create Two files and a directory
+creat f1
+creat f2
+mkdir dir
+
+print View things
+ls
+getattr f1
+getattr dir
+
+print Delete things
+rm f1
+rm f2
+rmdir dir
+ls
+
+dump_manifest ./manifest
+
+mr_proper
