@@ -92,7 +92,7 @@
 #define STAT_OTHER_WRITE	0002	/* Write by other. */
 #define STAT_OTHER_EXEC		0001	/* Execute by other. */
 
-#define KVSNS_ACCESS_READ 	1
+#define KVSNS_ACCESS_READ	1
 #define KVSNS_ACCESS_WRITE	2
 #define KVSNS_ACCESS_EXEC	4
 
@@ -144,7 +144,8 @@ typedef struct kvsns_xattr__ {
 } kvsns_xattr_t;
 
 /**
- * Start the kvsns library. This should be done by every thread using the library
+ * Start the kvsns library. This should be done by every thread
+ * using the library
  *
  * @note: this function will allocate required resources and set useful
  * variables to their initial value. As the programs ends kvsns_stop() should be
@@ -179,7 +180,7 @@ int kvsns_stop(void);
 int kvsns_init_root(int openbar);
 
 /**
- * Check is a given user can access an inode
+ * Check a given user can access an inode
  *
  * @note: this call is similar to POSIX's access() call. It behaves the same.
  *
