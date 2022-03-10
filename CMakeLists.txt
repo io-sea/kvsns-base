@@ -92,4 +92,4 @@ add_custom_command(TARGET srpm
 
 # INSTALL
 install(FILES ${PROJECT_SOURCE_DIR}/libkvsns.pc DESTINATION lib)
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/kvsns DESTINATION include)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/iosea DESTINATION include)
