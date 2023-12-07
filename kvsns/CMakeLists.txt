@@ -8,6 +8,6 @@ SET(kvsns_LIB_SRCS
 )
 
 add_library(kvsns SHARED ${kvsns_LIB_SRCS})
-target_link_libraries(kvsns ini_config dl)
+target_link_libraries(kvsns ini_config dl uuid)
 install(TARGETS kvsns DESTINATION lib)
 

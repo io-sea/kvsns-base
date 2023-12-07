@@ -37,6 +37,7 @@
 #include <time.h>
 #include <sys/time.h>
 #include <string.h>
+#include <uuid/uuid.h>
 #include <iosea/kvsal.h>
 #include <iosea/kvsns.h>
 #include "kvsns_internal.h"
@@ -167,7 +168,23 @@ int kvsns_get_objectid(kvsns_ino_t *ino,
 
 	eid->len = strnlen(eid->data, VLEN);
 
+	snprintf(k, KLEN, "%llu.uuid", *ino);
+
+	RC_WRAP(kvsal.get_char, k, eid->uuid);
+
 	return 0;
+}
+
+static char *create_new_uuid(char *uuid)
+{
+	uuid_t binary_uuid;
+
+	uuid_generate_random(binary_uuid);
+	uuid_unparse(binary_uuid, uuid);
+
+	uuid[UUID_LEN - 1] = 0;
+
+	return uuid;
 }
 
 int kvsns_create_entry(kvsns_cred_t *cred, kvsns_ino_t *parent,
@@ -182,6 +199,7 @@ int kvsns_create_entry(kvsns_cred_t *cred, kvsns_ino_t *parent,
 	struct stat bufstat;
 	struct stat parent_stat;
 	struct timeval t;
+	char uuid[UUID_LEN];
 
 	if (!cred || !parent || !name || !new_entry)
 		return -EINVAL;
@@ -283,6 +301,9 @@ int kvsns_create_entry(kvsns_cred_t *cred, kvsns_ino_t *parent,
 		/* set the reference in the KVS */
 		snprintf(k, KLEN, "%llu.objid", *new_entry);
 		RC_WRAP(kvsal.set_char, k, eid->data);
+
+		snprintf(k, KLEN, "%llu.uuid", *new_entry);
+		RC_WRAP(kvsal.set_char, k, create_new_uuid(uuid));
 	}
 	RC_WRAP_LABEL(rc, aborted, kvsns_amend_stat, &parent_stat,
 		      STAT_CTIME_SET|STAT_MTIME_SET);
